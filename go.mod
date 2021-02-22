@@ -28,7 +28,7 @@ require (
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
 	github.com/stretchr/testify v1.5.1
 	github.com/theckman/go-securerandom v0.1.1
-	github.com/tsenart/vegeta v12.7.0+incompatible
+	github.com/tsenart/vegeta/v12 v12.8.4
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
@@ -37,3 +37,4 @@ require (
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
+

@@ -24,18 +24,12 @@ type UserI interface {
 
 // User is inherited.
 type User struct {
-	// TODO: set Provider here so that we can pass it to db
-	// populated by db (via mapstructure) or from provider (via json)
-	// Provider   string `json:"provider",mapstructure:"provider"`
-	Username   string `json:"username" mapstructure:"username"`
-	Name       string `json:"name" mapstructure:"name"`
-	Email      string `json:"email" mapstructure:"email"`
-	CreatedOn  int64  `json:"createdon"`
-	LastUpdate int64  `json:"lastupdate"`
-	// don't populate ID from json https://github.com/vouch/vouch-proxy/issues/185
-	ID int `json:"-" mapstructure:"id"`
-	// jwt.StandardClaims
-
+	Sub             string `json:"sub"`
+	Username        string `json:"username"`
+	Name            string `json:"name"`
+	Email           string `json:"email"`
+	CreatedOn       int64  `json:"createdon"`
+	LastUpdate      int64  `json:"lastupdate"`
 	TeamMemberships []string
 }
 
@@ -44,12 +38,14 @@ func (u *User) PrepareUserData() {
 	if u.Username == "" {
 		u.Username = u.Email
 	}
+	if u.Sub == "" {
+		u.Sub = u.Username
+	}
 }
 
 // AzureUser is a retrieved and authenticated user from Azure AD
 type AzureUser struct {
 	User
-	Sub string `json:"sub"`
 	UPN string `json:"upn"`
 }
 
@@ -67,32 +63,9 @@ func (u *AzureUser) PrepareUserData() {
 	}
 }
 
-// GoogleUser is a retrieved and authentiacted user from Google.
-// unused!
-// TODO: see if these should be pointers to the *User object as per
-// https://golang.org/doc/effective_go.html#embedding
-type GoogleUser struct {
-	User
-	Sub           string `json:"sub"`
-	GivenName     string `json:"given_name"`
-	FamilyName    string `json:"family_name"`
-	Profile       string `json:"profile"`
-	Picture       string `json:"picture"`
-	EmailVerified bool   `json:"email_verified"`
-	Gender        string `json:"gender"`
-	HostDomain    string `json:"hd"`
-	// jwt.StandardClaims
-}
-
-// PrepareUserData implement PersonalData interface
-func (u *GoogleUser) PrepareUserData() {
-	u.Username = u.Email
-}
-
 // ADFSUser Active Directory user record
 type ADFSUser struct {
 	User
-	Sub string `json:"sub"`
 	UPN string `json:"upn"`
 	// UniqueName string `json:"unique_name"`
 	// PwdExp     string `json:"pwd_exp"`
