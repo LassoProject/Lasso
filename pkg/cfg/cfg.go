@@ -65,6 +65,7 @@ type Config struct {
 	}
 
 	Headers struct {
+		Sub           string            `mapstructure:"sub"`
 		JWT           string            `mapstructure:"jwt"`
 		User          string            `mapstructure:"user"`
 		QueryString   string            `mapstructure:"querystring"`
